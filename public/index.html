@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotifWA Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="ph-fill ph-whatsapp-logo"></i>
+                    <span>NotifWA</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-target="dashboard">
+                    <i class="ph ph-squares-four"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-target="blast">
+                    <i class="ph ph-paper-plane-tilt"></i>
+                    <span>Blast Message</span>
+                </a>
+                <a href="#" class="nav-item" data-target="api-docs">
+                    <i class="ph ph-code"></i>
+                    <span>API Documentation</span>
+                </a>
+                <a href="#" class="nav-item" data-target="settings">
+                    <i class="ph ph-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn-logout">
+                    <i class="ph ph-sign-out"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="greeting">
+                    <h2>Welcome back 👋</h2>
+                    <p>Manage your NotifWA campaigns efficiently.</p>
+                </div>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=10b981&color=fff" alt="Admin">
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="page-section active">
+                    <div class="status-card glass-card">
+                        <div class="card-header">
+                            <h3>Device Status</h3>
+                            <span id="connectionBadge" class="badge badge-error">Disconnected</span>
+                        </div>
+                        <div class="card-body status-body">
+                            <div class="qr-container" id="qrContainer">
+                                <div class="qr-placeholder">
+                                    <i class="ph ph-qr-code"></i>
+                                    <p>Loading QR Code...</p>
+                                </div>
+                                <div id="qrcode"></div>
+                            </div>
+                            <div class="status-info">
+                                <h4>Connection Information</h4>
+                                <p>Status: <strong id="statusText">Disconnected</strong></p>
+                                <p>To connect, open WhatsApp on your phone, go to Linked Devices, and scan the QR code.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Blast Message Section -->
+                <section id="blast" class="page-section">
+                    <div class="blast-card glass-card">
+                        <div class="card-header">
+                            <h3>New Campaign</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="blastForm">
+                                <div class="form-group">
+                                    <label for="numbers">Target Numbers (Comma separated or one per line)</label>
+                                    <textarea id="numbers" rows="3" placeholder="08123456789, 08987654321..." required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message Template</label>
+                                    <textarea id="message" rows="6" placeholder="Hello! Here is a promotional message..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary" id="sendBtn">
+                                    <i class="ph ph-paper-plane-right"></i>
+                                    <span>Send Blast</span>
+                                </button>
+                            </form>
+                            <div id="resultLogs" class="result-logs">
+                                <h4>Action Logs</h4>
+                                <div class="log-container" id="logContainer">
+                                    <!-- Logs will appear here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Docs Section -->
+                <section id="api-docs" class="page-section">
+                    <div class="api-header" style="margin-bottom: 24px;">
+                        <h3 style="font-size: 24px; color: var(--text-main); margin-bottom: 8px;">REST API Reference</h3>
+                        <p style="color: var(--text-muted); font-size: 15px;">Integrate WhatsApp capabilities into your application using our HTTP API. All endpoints are prefixed with <code>/api/v1</code>.</p>
+                    </div>
+
+                    <div class="api-auth-card glass-card" style="margin-bottom: 32px;">
+                        <div class="card-body" style="background: linear-gradient(135deg, #fff, #fff0f4); border-left: 4px solid var(--primary);">
+                            <h4 style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <i class="ph ph-key" style="color: var(--primary); font-size: 20px;"></i>
+                                Authentication
+                            </h4>
+                            <p style="margin-bottom: 16px; color: var(--text-main);">Authenticate your API requests by including your API key in the request headers.</p>
+                            <div class="code-snippet">
+                                <span class="code-label">Header</span>
+                                <code>x-api-key: notifwa-secret-key-123</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="api-endpoints">
+                        <!-- Send Message -->
+                        <div class="api-card glass-card" style="margin-bottom: 24px;">
+                            <div class="card-header" style="display: flex; gap: 12px; align-items: center;">
+                                <span class="badge badge-success" style="font-size: 14px; padding: 6px 12px;">POST</span>
+                                <h3 style="font-size: 18px; margin: 0; font-family: monospace;">/api/v1/send</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="margin-bottom: 20px;">Send a text message to a specific WhatsApp number. The number must be registered on WhatsApp.</p>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                                    <div>
+                                        <h5 style="margin-bottom: 12px; color: var(--text-muted);">Request Body (JSON)</h5>
+                                        <div class="code-block">
+<pre>{
+  <span style="color:#e81255">"number"</span>: <span style="color:#36b37e">"08123456789"</span>,
+  <span style="color:#e81255">"message"</span>: <span style="color:#36b37e">"Hello from NotifWA API!"</span>
+}</pre>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 style="margin-bottom: 12px; color: var(--text-muted);">cURL Example</h5>
+                                        <div class="code-block">
+<pre>curl -X POST http://localhost:3000/api/v1/send \
+  -H <span style="color:#36b37e">"x-api-key: notifwa-secret-key-123"</span> \
+  -H <span style="color:#36b37e">"Content-Type: application/json"</span> \
+  -d <span style="color:#36b37e">'{"number":"08123456789","message":"Hi!"}'</span></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h5 style="margin-top: 24px; margin-bottom: 12px; color: var(--text-muted);">Responses</h5>
+                                <div class="response-tabs">
+                                    <div class="code-block success-res">
+                                        <span class="res-status">200 OK</span>
+<pre>{
+  <span style="color:#e81255">"status"</span>: <span style="color:#0052cc">true</span>,
+  <span style="color:#e81255">"message"</span>: <span style="color:#36b37e">"Message sent successfully"</span>
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Check Status -->
+                        <div class="api-card glass-card" style="margin-bottom: 24px;">
+                            <div class="card-header" style="display: flex; gap: 12px; align-items: center;">
+                                <span class="badge" style="background:#e6effc; color:#0052cc; font-size: 14px; padding: 6px 12px;">GET</span>
+                                <h3 style="font-size: 18px; margin: 0; font-family: monospace;">/api/v1/status</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="margin-bottom: 20px;">Retrieve the current connection status of the WhatsApp session. Returns a QR code string if disconnected.</p>
+                                
+                                <h5 style="margin-bottom: 12px; color: var(--text-muted);">cURL Example</h5>
+                                <div class="code-block" style="max-width: 50%;">
+<pre>curl http://localhost:3000/api/v1/status \
+  -H <span style="color:#36b37e">"x-api-key: notifwa-secret-key-123"</span></pre>
+                                </div>
+                                
+                                <h5 style="margin-top: 24px; margin-bottom: 12px; color: var(--text-muted);">Responses</h5>
+                                <div class="code-block success-res">
+                                    <span class="res-status">200 OK</span>
+<pre>{
+  <span style="color:#e81255">"status"</span>: <span style="color:#36b37e">"Connected"</span>,
+  <span style="color:#e81255">"qr"</span>: <span style="color:#0052cc">null</span>
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Logout -->
+                        <div class="api-card glass-card" style="margin-bottom: 24px;">
+                            <div class="card-header" style="display: flex; gap: 12px; align-items: center;">
+                                <span class="badge badge-error" style="font-size: 14px; padding: 6px 12px;">POST</span>
+                                <h3 style="font-size: 18px; margin: 0; font-family: monospace;">/api/v1/logout</h3>
+                            </div>
+                            <div class="card-body">
+                                <p style="margin-bottom: 20px;">Terminate the current WhatsApp session and delete authentication data.</p>
+                                <div class="code-block" style="max-width: 50%;">
+<pre>curl -X POST http://localhost:3000/api/v1/logout \
+  -H <span style="color:#36b37e">"x-api-key: notifwa-secret-key-123"</span></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="page-section">
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h3>Settings</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Settings configuration goes here.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
