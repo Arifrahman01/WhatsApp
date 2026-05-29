@@ -28,7 +28,7 @@ let qrcodeInstance = null;
 async function checkStatus() {
     try {
         const response = await fetch('/api/v1/status', {
-            headers: { 'x-api-key': 'notifwa-secret-key-123' }
+            headers: { 'x-api-key': 'MASUKKAN_KUNCI_RAHASIA_ANDA_DISINI' }
         });
         const data = await response.json();
         
@@ -81,7 +81,7 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
         try {
             await fetch('/api/v1/logout', { 
                 method: 'POST',
-                headers: { 'x-api-key': 'notifwa-secret-key-123' }
+                headers: { 'x-api-key': 'MASUKKAN_KUNCI_RAHASIA_ANDA_DISINI' }
             });
             alert('Logged out successfully');
             checkStatus();
@@ -136,7 +136,7 @@ blastForm.addEventListener('submit', async (e) => {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'x-api-key': 'notifwa-secret-key-123'
+                    'x-api-key': 'MASUKKAN_KUNCI_RAHASIA_ANDA_DISINI'
                 },
                 body: JSON.stringify({ number: num, message: messageInput })
             });
