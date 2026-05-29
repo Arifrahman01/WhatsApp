@@ -28,7 +28,7 @@ let qrcodeInstance = null;
 async function checkStatus() {
     try {
         const response = await fetch('/api/v1/status', {
-            headers: { 'x-api-key': 'MASUKKAN_KUNCI_RAHASIA_ANDA_DISINI' }
+            headers: { 'x-api-key': 'DUDIDUDIDAM' }
         });
         const data = await response.json();
         
@@ -81,7 +81,7 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
         try {
             await fetch('/api/v1/logout', { 
                 method: 'POST',
-                headers: { 'x-api-key': 'MASUKKAN_KUNCI_RAHASIA_ANDA_DISINI' }
+                headers: { 'x-api-key': 'DUDIDUDIDAM' }
             });
             alert('Logged out successfully');
             checkStatus();
@@ -136,7 +136,7 @@ blastForm.addEventListener('submit', async (e) => {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'x-api-key': 'MASUKKAN_KUNCI_RAHASIA_ANDA_DISINI'
+                    'x-api-key': 'DUDIDUDIDAM'
                 },
                 body: JSON.stringify({ number: num, message: messageInput })
             });
