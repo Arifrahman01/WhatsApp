@@ -43,7 +43,6 @@ async function connectToWhatsApp() {
     sock = makeWASocket({
         version,
         logger: pino({ level: 'silent' }),
-        printQRInTerminal: true,
         auth: {
             creds: state.creds,
             keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'silent' })),
@@ -57,7 +56,8 @@ async function connectToWhatsApp() {
         if (qr) {
             qrCode = qr;
             status = 'Disconnected';
-            console.log('QR Code updated');
+            console.log('QR Code updated. Scan QR Code di bawah ini:');
+            require('qrcode-terminal').generate(qr, { small: true });
         }
 
         if (connection === 'close') {
